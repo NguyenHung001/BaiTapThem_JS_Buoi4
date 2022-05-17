@@ -20,59 +20,58 @@
  *      + ko phải những trường hợp trên: day+1/month/year
  * OUTPUT: gắn even và in ra kết quả
  */
-function ngayHomQua(){
+var kqBai1 = document.getElementById('txtNotify1');
+var result;
+function ngayHomQua(day,month,year){
     var day = Number(document.getElementById('day').value);
     var month = Number(document.getElementById('month').value);
     var year = Number(document.getElementById('year').value);
-    var kqBai1 = document.getElementById('txtNotify1');
-// <----------------------------------------------------------->
     --day;
     if(day<0 || day>32 || month==0 || month>12){
-        kqBai1.innerHTML = 'Nhập không hợp lệ!';
+        result =  'Nhập không hợp lệ!';
     }else if((month==4 || month==6 || month==9 || month==11) && day==30){
-        kqBai1.innerHTML = 'Nhập ngày không hợp lệ!'
+        result =  'Nhập ngày không hợp lệ!'
     }else if(month==2 && day>27){
-        kqBai1.innerHTML = 'Nhập ngày không hợp lệ!'
+        result = 'Nhập ngày không hợp lệ!'
     }else if(day==0){
         switch(month){
             case 1:
-                kqBai1.innerHTML = 'Ngày hôm qua: 31/12/' + (year-1);
+                result = 'Ngày hôm qua: 31/12/' + (year-1);
                 break;
             case 3:
-                kqBai1.innerHTML = 'Ngày hôm qua: 28/2/' +year;
+                result = 'Ngày hôm qua: 28/2/' +year;
                 break;
             case 4:
             case 6:
             case 8:
             case 9:
             case 11:
-                kqBai1.innerHTML = 'Ngày hôm qua: 31/' + (month-1) +'/' + year;
+                result = 'Ngày hôm qua: 31/' + (month-1) +'/' + year;
                 break;
             default:
-                kqBai1.innerHTML = 'Ngày hôm qua: 30/' + (month-1) +'/' + year;
+                result = 'Ngày hôm qua: 30/' + (month-1) +'/' + year;
                 break;
         }
     }else{
-        kqBai1.innerHTML = 'Ngày hôm qua: ' + day + '/' + month + '/' + year;
+        result = 'Ngày hôm qua: ' + day + '/' + month + '/' + year;
     }
+    kqBai1.innerHTML = result;
 }
-function ngayMai(){
+function ngayMai(day,month,year){
     var day = Number(document.getElementById('day').value);
     var month = Number(document.getElementById('month').value);
     var year = Number(document.getElementById('year').value);
-    var kqBai1 = document.getElementById('txtNotify1');
-// <----------------------------------------------------------->
     ++day;
     if(day<2 || day>32 || month==0 || month>12){
-        kqBai1.innerHTML = 'Nhập không hợp lệ!';
+        return 'Nhập không hợp lệ!';
     }else if((month==4 || month==6 || month==9 || month==11) && day==32){
-        kqBai1.innerHTML = 'Nhập ngày không hợp lệ!'
+        return 'Nhập ngày không hợp lệ!'
     }else if(month==2 && day>29 ){
-        kqBai1.innerHTML = 'Nhập ngày không hợp lệ!'
+        return 'Nhập ngày không hợp lệ!'
     }else
     if(day==29){
         (month==2) ? kqBai1.innerHTML = 'Ngày mai: 1/3/' + year :
-                     kqBai1.innerHTML = 'Ngày mai: ' + day + '/' + month + '/' + year;
+        kqBai1.innerHTML = 'Ngày mai: ' + day + '/' + month + '/' + year;
     } else if(day==31){
         switch(month){
             case 4:
@@ -204,13 +203,30 @@ function cachDocSo(){
 // sinhvien2 d2 X[1],Y[1]
 // sinhvien3 d3 X[2],Y[2]
 // truonghoc X[3],Y[3]
+/**
+ * INPUT: lấy tọa độ x,y của 3 sinh viên và trường học
+ * SOLUTION: tính quãng đường từ nhà tới trường của từng sinh viên: 
+ *    d=Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2));
+ *  => tìm quãng đường dài nhất
+ * OUTPUT: in ra màn hình kết quả
+ */
 function sinhVien(){
     var name1 = document.getElementById('sv1').value;
     var name2 = document.getElementById('sv2').value;
     var name3 = document.getElementById('sv3').value;
     var kqBai4 = document.getElementById('txtNotify4');
-    var X = Array.from(document.querySelectorAll('.toadoX')).map(e => parseInt(e.value));
-    var Y = Array.from(document.querySelectorAll('.toadoY')).map(e => parseInt(e.value));
+    var toaDoX = document.querySelectorAll('.toadoX');
+    var toaDoY = document.querySelectorAll('.toadoY');
+    var X = [];
+    var Y = []; 
+    var x = 0;
+    var y = 0;  
+    for(var i = 0 ; i < toaDoX.length ; i++){
+         x = Number(toaDoX[i].value);
+         y = Number(toaDoY[i].value);
+        X.push(x);
+        Y.push(y);
+    } 
 // <----------------------------------------------->
     function tinhQuangDuong(a1,a2,b1,b2){
         var quangDuong = Math.sqrt(Math.pow((a2-a1),2) + Math.pow((b2-b1),2));
